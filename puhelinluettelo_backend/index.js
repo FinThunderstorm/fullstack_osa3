@@ -65,6 +65,18 @@ app.delete('/api/persons/:id', (req, res) => {
 app.post('/api/persons', (req, res) => {
     const person = req.body
 
+    if(person.name === undefined|| person.number === undefined) {
+        return res.status(400).json({ 
+            error: 'name or number missing' 
+        })
+    }
+
+    if(persons.find((p) => p.name === person.name)){
+        return res.status(400).json({
+            error: 'name must be unique'
+        })
+    }
+
     person.id = Math.floor(Math.random()*9999999999999)
 
     persons = persons.concat(person)
