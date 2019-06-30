@@ -1,5 +1,8 @@
 const express = require('express')
 const app = express()
+const bodyParser = require('body-parser')
+
+app.use(bodyParser.json())
 
 let persons = [
     { 
@@ -25,7 +28,7 @@ let persons = [
 ]
 
 
-//koodi alkaa
+//koodi alkaa, GET
 app.get('/', (req, res) => {
     res.send('<h1>puhelinluettelo backend</h1>')
 })
@@ -48,6 +51,28 @@ app.get('/api/persons/:id', (req, res) => {
     } else {
         res.status(404).end()
     }
+})
+
+//DELETE
+app.delete('/api/persons/:id', (req, res) => {
+    const id = Number(req.params.id)
+    persons =  persons.filter(person => person.id !== id)
+
+    res.status(204).end()
+})
+
+//POST
+app.post('/api/persons', (req, res) => {
+    const person = req.body
+    const maxId = persons.length > 0
+        ? Math.max(...persons.map(p => p.id))
+        : 0
+
+    person.id = maxId + 1
+
+    persons = persons.concat(person)
+
+    res.json(person)
 })
 
 const PORT = 3001
