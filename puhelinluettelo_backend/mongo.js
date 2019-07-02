@@ -29,7 +29,7 @@ if( process.argv.length === 3) {
     })
     mongoose.connection.close()
   })
-} else if( process.argv.length > 3){
+} else if(process.argv.length > 3){
   const person = new Person({
     name: `${process.argv[3]}`,
     number: `${process.argv[4]}`,
