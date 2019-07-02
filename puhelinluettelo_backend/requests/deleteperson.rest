@@ -1,0 +1,1 @@
+DELETE http://honest-lumberjack-70309.herokuapp.com/api/persons/2

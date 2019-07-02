@@ -7,6 +7,7 @@ const cors = require('cors')
 morgan.token('body', (req, res) => {return JSON.stringify(req.body)})
 
 app.use(cors())
+app.use(express.static('build'))
 app.use(bodyParser.json())
 app.use(morgan('tiny', {
     skip: (req, res) => {return res.statusCode !== 400}
@@ -40,9 +41,9 @@ let persons = [
 
 
 //koodi alkaa, GET
-app.get('/', (req, res) => {
+/*app.get('/', (req, res) => {
     res.send('<h1>puhelinluettelo backend</h1>')
-})
+})*/
 
 app.get('/info', (req, res) => {
     const personsAmount = persons.length
