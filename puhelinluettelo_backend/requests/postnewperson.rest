@@ -1,7 +1,7 @@
-POST http://honest-lumberjack-70309.herokuapp.com/api/persons
+POST http://localhost:3001/api/persons
 Content-Type: application/json
 
 {
     "name": "Juha Tauriainen",
-    "number": "040-654321"
+    "number": "010 1010 101"
 }

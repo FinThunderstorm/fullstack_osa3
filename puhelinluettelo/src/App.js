@@ -134,6 +134,16 @@ const App = () => {
             setErrorStyle('')
           },5000)
         })
+        .catch(error => {
+          setNewName('')
+          setNewNumber('')
+          setErrorStyle('error')
+          setErrorMessage(error.response.data.error)
+          setTimeout(() => {
+            setErrorMessage(null)
+            setErrorStyle('')
+          },5000)
+        })
     }
   }
 
