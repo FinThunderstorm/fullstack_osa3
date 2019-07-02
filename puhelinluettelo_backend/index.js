@@ -10,8 +10,10 @@ const unknownEndpoint = (req, res) => {
 const errorHandler = (error, req, res, next) => {
     console.error(error.message)
     if(error.name === 'CastError' && error.kind === 'ObjectId') {
-        return res.status(400).send({ error: 'malformatted id'})
-    } 
+        return res.status(400).send({ error: 'malformatted id' })
+    } else if(error.name === 'ValidationError'){
+        return res.status(400).json({ error: error.message })
+    }
 
     next(error)
 }
@@ -81,22 +83,15 @@ app.post('/api/persons', (req, res, next) => {
         })
     }
 
-    Person.find({}).then(persons => {
-        if(persons.find((p) => p.name === person.name)){
-            return res.status(400).json({
-                error: 'name must be unique'
-            })
-        }
-    })
-
     const newPerson = new Person({
         name: person.name,
         number: person.number,
     })
 
-    newPerson.save().then(savedPerson => {
-        res.json(savedPerson.toJSON())
-    })
+    newPerson.save()
+        .then(savedPerson => savedPerson.toJSON())
+        .then(savedAndFormattedPerson => res.json(savedAndFormattedPerson))
+        .catch(error => next(error))
 })
 
 app.put('/api/persons/:id', (req, res, next) => {
